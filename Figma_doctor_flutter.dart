@@ -8,9 +8,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.grey[100],
         appBar: AppBar(
-          title: Text('Doctor figma'),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text('Doctor Figma', style: TextStyle(color: Colors.black)),
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black),
         ),
         body: DoctorAppointmentScreen(),
       ),
@@ -23,85 +29,102 @@ class DoctorAppointmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double width = constraints.maxWidth;
-        return Padding(
+        return SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Hello,',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'Hi James',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
+              Text('Hello,', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500)),
+              SizedBox(height: 4),
+              Text('Hi James 👋', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              SizedBox(height: 24),
               Card(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 color: Colors.blue[100],
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-                  ),
-                  title: Text('Dr. GOODA MOHAMED'),
-                  subtitle: Text('General Doctr'),
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
                     children: [
-                      Text('MONday, 14 June'),
-                      Text('8:00 - 8:00 AM'),
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Dr. GOODA MOHAMED',
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              'General Doctor',
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('Monday, 14 June', style: TextStyle(fontSize: 12)),
+                          Text('8:00 - 8:00 AM', style: TextStyle(fontSize: 12)),
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 24),
               TextField(
                 decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 12),
                   hintText: 'Search doctor or health issue',
                   prefixIcon: Icon(Icons.search),
+                  filled: true,
+                  fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
-              SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CategoryIcon(icon: Icons.coronavirus, label: 'Covid 19'),
-                  CategoryIcon(icon: Icons.person, label: 'Doctor'),
-                  CategoryIcon(icon: Icons.medical_services, label: 'Medicine'),
-                  CategoryIcon(icon: Icons.local_hospital, label: 'Hospital'),
-                ],
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Near Doctor',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Expanded(
-                child: ListView(
+              SizedBox(height: 24),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: [
-                    DoctorCard(
-                      name: 'Dr. saad eldien',
-                      specialty: 'Dental Specialist',
-                      rating: 4.8,
-                      reviews: 120,
-                      distance: 1.2,
-                      openTime: '17:00',
-                    ),
-                    DoctorCard(
-                      name: 'Dr. morad adham',
-                      specialty: 'General
-                       Doctor',
-                      rating: 4.8,
-                      reviews: 120,
-                      distance: 1.2,
-                      openTime: '9:00',
-                    ),
+                    CategoryIcon(icon: Icons.coronavirus, label: 'Covid 19'),
+                    SizedBox(width: 12),
+                    CategoryIcon(icon: Icons.person, label: 'Doctor'),
+                    SizedBox(width: 12),
+                    CategoryIcon(icon: Icons.medical_services, label: 'Medicine'),
+                    SizedBox(width: 12),
+                    CategoryIcon(icon: Icons.local_hospital, label: 'Hospital'),
                   ],
                 ),
+              ),
+              SizedBox(height: 32),
+              Text('Nearby Doctors', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              SizedBox(height: 16),
+              DoctorCard(
+                name: 'Dr. Saad Eldien',
+                specialty: 'Dental Specialist',
+                rating: 4.8,
+                reviews: 120,
+                distance: 1.2,
+                openTime: '17:00',
+              ),
+              DoctorCard(
+                name: 'Dr. Morad Adham',
+                specialty: 'General Doctor',
+                rating: 4.8,
+                reviews: 98,
+                distance: 2.5,
+                openTime: '9:00',
               ),
             ],
           ),
@@ -121,9 +144,25 @@ class CategoryIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, size: 40),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+          ),
+          padding: EdgeInsets.all(12),
+          child: Icon(icon, size: 28, color: Colors.blue),
+        ),
         SizedBox(height: 8),
-        Text(label),
+        Container(
+          width: 60,
+          child: Text(
+            label,
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }
@@ -149,26 +188,51 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-        ),
-        title: Text(name),
-        subtitle: Text(specialty),
-        trailing: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: EdgeInsets.symmetric(vertical: 8),
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
+            CircleAvatar(
+              radius: 28,
+              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    specialty,
+                    style: TextStyle(color: Colors.grey[700]),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.orange, size: 16),
+                      SizedBox(width: 4),
+                      Text('$rating ($reviews)', style: TextStyle(fontSize: 12)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Icon(Icons.star, color: Colors.orange, size: 20),
-                SizedBox(width: 4),
-                Text('$rating ($reviews Reviews)'),
+                Text('Opens at $openTime', style: TextStyle(fontSize: 12)),
+                Text('${distance.toStringAsFixed(1)} km', style: TextStyle(fontSize: 12)),
               ],
             ),
-            SizedBox(height: 4),
-            Text('Open at $openTime'),
-            Text('${distance} KM'),
           ],
         ),
       ),
